@@ -1,7 +1,9 @@
 package com.company;
 
 
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -9,7 +11,6 @@ import java.util.Scanner;
 import java.util.stream.IntStream;
 
 /**
- *
  * @author Thomas
  */
 public class ZeckendorfRepresentation {
@@ -18,40 +19,63 @@ public class ZeckendorfRepresentation {
     private List<Integer> zeckendorfs;
     private List<Integer> bounds;
     private List<Integer> fibNumbs;
-    public static void main(String[] args) {
-        int lowerBound;
-        int upperBound;
-        try (Scanner reader = new Scanner(System.in)) {
-            lowerBound = getLowerBound(reader);
-            upperBound = getUpperBound(reader);
-            ZeckendorfRepresentation zeck = new ZeckendorfRepresentation();
-            zeck.getFibonacciSequence(upperBound);
-            zeck.AddBounds(upperBound, lowerBound);
-            while(upperBound >= lowerBound){
+    private int lowerBound = 0;
+    private int upperBound = 10;
 
-                zeck.zeckendorfs = zeck.getZeckendorfSequence(lowerBound);
-                System.out.print(lowerBound + ": ");
-                zeck.zeckendorfs.forEach(x -> System.out.print(x));
-                System.out.println();
-                lowerBound++;
+    public static void main(String[] args) throws IOException {
+        ZeckendorfRepresentation zeck = new ZeckendorfRepresentation();
+        zeck.getBounds();
+        zeck.getFibonacciSequence();
+        zeck.getZeckendorfSequence();
+    }
+
+    private void getBounds() throws IOException {
+        boolean incorrectBounds = true;
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        while (incorrectBounds) {
+            lowerBound = getLowerBound(lowerBound, br);
+            upperBound = getUpperBound(upperBound, br);
+            if (lowerBound >= upperBound) {
+                System.out.println("Please enter the lower bound lower than the upper bound!");
+                incorrectBounds = true;
+            } else {
+                incorrectBounds = false;
             }
-        }catch(InputMismatchException ex){
-            System.out.println("Please enter a number");
+
         }
 
     }
 
-    private static int getUpperBound(final Scanner reader) {
-        int upperBound;
-        System.out.println("Upper Bound: ");
-        upperBound = reader.nextInt();
+    public int getUpperBound(int upperBound, BufferedReader br) throws IOException {
+        boolean upperBoundsIncorrect = true;
+        while (upperBoundsIncorrect) {
+            System.out.print("Enter Upper Bound: ");
+            try {
+                upperBound = Integer.parseInt(br.readLine());
+                upperBoundsIncorrect = false;
+            } catch (NumberFormatException nfe) {
+                System.err.println("Please enter a integer");
+                upperBoundsIncorrect = true;
+            }
+        }
         return upperBound;
     }
 
-    private static int getLowerBound(final Scanner reader) {
-        int lowerBound;
-        System.out.println("Lower Bound: ");
-        lowerBound = reader.nextInt();
+    public int getLowerBound(int lowerBound, BufferedReader br) throws IOException {
+        boolean lowerBoundIncorrect = true;
+
+        while (lowerBoundIncorrect) {
+            System.out.print("Enter Lower Bound: ");
+            try {
+                lowerBound = Integer.parseInt(br.readLine());
+                lowerBoundIncorrect = false;
+            } catch (NumberFormatException nfe) {
+                System.err.println("Please enter a integer");
+                lowerBoundIncorrect = true;
+            }
+
+        }
         return lowerBound;
     }
 
@@ -62,61 +86,61 @@ public class ZeckendorfRepresentation {
         fibNumbs = new ArrayList<>();
     }
 
-    public List getFibonacciSequence(int upperBound ){
+    public void getFibonacciSequence() {
 
         int oldNumber = 1;
-        int newNumber =1;
+        int newNumber = 1;
         int tempNumber;
-        while( newNumber < upperBound){
+        while (newNumber < upperBound) {
             tempNumber = newNumber;
             newNumber = oldNumber + newNumber;
             oldNumber = tempNumber;
             fibonacci.add(oldNumber);
         }
-        return fibonacci;
     }
 
-    public List getZeckendorfSequence(int upperBound){
-        int upper = upperBound;
-        boolean firstNum = false;
-        List fibNumbers = new ArrayList<>();
-        for(int i = fibonacci.size() - 1; i > -1; i--){
-            if(fibonacci.get(i) <= upper){
-                upper -= fibonacci.get(i);
-                fibNumbers.add(1);
-                firstNum = true;
-            }else{
-                if(firstNum || upper == 0){
-                    fibNumbers.add(0);
+    public void getZeckendorfSequence() {
+        List zeckendorfSequence = new ArrayList<>();
+        while (upperBound >= lowerBound) {
+            int lower = lowerBound;
+            for (int i = fibonacci.size() - 1; i > -1; i--) {
+                if (fibonacci.get(i) <= lower) {
+                    lower -= fibonacci.get(i);
+                    zeckendorfSequence.add(1);
+                } else {
+                    zeckendorfSequence.add(0);
                 }
-
             }
+            System.out.print(lowerBound + ": ");
+            zeckendorfSequence.forEach(x -> System.out.print(x));
+            System.out.println();
+            lowerBound++;
+            zeckendorfSequence.clear();
         }
-        return fibNumbers;
     }
 
     /**
      * This method is not used, however it is used for building streams
+     *
      * @param upperBound
      * @param lowerBound
      * @return
      */
 
 
+    public List AddBounds(int upperBound, int lowerBound) {
 
-    public List AddBounds(int upperBound, int lowerBound){
         IntStream.range(lowerBound, upperBound + 1).forEach(i -> bounds.add(i));
-        IntStream.range(0, bounds.size() -1).forEach(index -> {
+        IntStream.range(0, bounds.size() - 1).forEach(index -> {
             int oldNumber = 1;
             int newNumber = 1;
             int tempNumber;
-            while(newNumber < bounds.get(index )){
+            while (newNumber < bounds.get(index)) {
                 tempNumber = newNumber;
                 newNumber = oldNumber + newNumber;
                 oldNumber = tempNumber;
                 fibNumbs.add(oldNumber);
             }
-
         });
         return bounds;
     }
