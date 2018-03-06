@@ -25,11 +25,7 @@ class ZeckendorfRepresentationTest {
     public static final List<Integer> ZECKENDORF_8 = Arrays.asList(1, 0, 0, 0, 0);
     public static final List<Integer> ZECKENDORF_9 = Arrays.asList(1, 0, 0, 0, 1);
     public static final List<Integer> ZECKENDORF_10 = Arrays.asList(1, 0, 0, 1, 0);
-
-    @Before
-    void setUpTests() {
-
-    }
+    
 
     @Test
     void testFibonacciSequenceTest() {
