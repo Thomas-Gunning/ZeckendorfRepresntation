@@ -5,17 +5,19 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.IntStream;
 
 /**
  * @author Thomas
+ * <p>
+ * Problem set by Adam Micthell to create a zeckendorf sequence from the Fibonnaci numbers
+ * Giving an upper bound and lower bound
  */
 public class ZeckendorfRepresentation {
 
     private final List<Integer> fibonacci;
+    private List<List<Integer>> allZeckendorfs;
     private List<Integer> zeckendorfs;
     private List<Integer> bounds;
     private List<Integer> fibNumbs;
@@ -25,9 +27,15 @@ public class ZeckendorfRepresentation {
     public static void main(String[] args) throws IOException {
         ZeckendorfRepresentation zeck = new ZeckendorfRepresentation();
         zeck.getBounds();
-        zeck.getFibonacciSequence();
+        zeck.setFibonacciSequence();
         zeck.getZeckendorfSequence();
     }
+
+    /**
+     * This gets the bounds of upper and lower bounds
+     *
+     * @throws IOException
+     */
 
     private void getBounds() throws IOException {
         boolean incorrectBounds = true;
@@ -47,6 +55,12 @@ public class ZeckendorfRepresentation {
 
     }
 
+    /**
+     * @param upperBound
+     * @param br
+     * @return
+     * @throws IOException
+     */
     public int getUpperBound(int upperBound, BufferedReader br) throws IOException {
         boolean upperBoundsIncorrect = true;
         while (upperBoundsIncorrect) {
@@ -62,6 +76,12 @@ public class ZeckendorfRepresentation {
         return upperBound;
     }
 
+    /**
+     * @param lowerBound
+     * @param br
+     * @return
+     * @throws IOException
+     */
     public int getLowerBound(int lowerBound, BufferedReader br) throws IOException {
         boolean lowerBoundIncorrect = true;
 
@@ -79,26 +99,41 @@ public class ZeckendorfRepresentation {
         return lowerBound;
     }
 
+    /**
+     * initialises the lists
+     */
     public ZeckendorfRepresentation() {
         fibonacci = new ArrayList<>();
         zeckendorfs = new ArrayList<>();
         bounds = new ArrayList<>();
         fibNumbs = new ArrayList<>();
+        allZeckendorfs = new ArrayList<>();
     }
 
-    public void getFibonacciSequence() {
+    /**
+     * returns the fibonacci sequence up until the upper bound
+     */
+    public void setFibonacciSequence() {
 
         int oldNumber = 1;
         int newNumber = 1;
         int tempNumber;
-        while (newNumber < upperBound) {
+        while (newNumber <= upperBound) {
             tempNumber = newNumber;
             newNumber = oldNumber + newNumber;
             oldNumber = tempNumber;
             fibonacci.add(oldNumber);
         }
+
     }
 
+    public List<Integer> getFibonacci() {
+        return fibonacci;
+    }
+
+    /**
+     * returns the zeckendorf sequence starting from the lowerbound going up to the upper bound
+     */
     public void getZeckendorfSequence() {
         List zeckendorfSequence = new ArrayList<>();
         while (upperBound >= lowerBound) {
@@ -113,11 +148,25 @@ public class ZeckendorfRepresentation {
             }
             System.out.print(lowerBound + ": ");
             zeckendorfSequence.forEach(x -> System.out.print(x));
+            allZeckendorfs.add(new ArrayList<>(zeckendorfSequence));
             System.out.println();
             lowerBound++;
             zeckendorfSequence.clear();
         }
     }
+
+    public void setLowerbound(int lower) {
+        lowerBound = lower;
+    }
+
+    public void setUpperBount(int upper) {
+        upperBound = upper;
+    }
+
+    public List<List<Integer>> getAllZeckendorfs() {
+        return allZeckendorfs;
+    }
+
 
     /**
      * This method is not used, however it is used for building streams
