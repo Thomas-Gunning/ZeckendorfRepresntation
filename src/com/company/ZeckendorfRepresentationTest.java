@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.List;
 import java.io.BufferedReader;
@@ -25,7 +25,7 @@ class ZeckendorfRepresentationTest {
     public static final List<Integer> ZECKENDORF_8 = Arrays.asList(1, 0, 0, 0, 0);
     public static final List<Integer> ZECKENDORF_9 = Arrays.asList(1, 0, 0, 0, 1);
     public static final List<Integer> ZECKENDORF_10 = Arrays.asList(1, 0, 0, 1, 0);
-    
+
 
     @Test
     void testFibonacciSequenceTest() {
