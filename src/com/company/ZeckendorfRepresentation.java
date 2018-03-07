@@ -18,7 +18,6 @@ public class ZeckendorfRepresentation {
 
     private final List<Integer> fibonacci;
     private List<List<Integer>> allZeckendorfs;
-    private List<Integer> zeckendorfs;
     private List<Integer> bounds;
     private List<Integer> fibNumbs;
     private int lowerBound = 0;
@@ -104,7 +103,6 @@ public class ZeckendorfRepresentation {
      */
     public ZeckendorfRepresentation() {
         fibonacci = new ArrayList<>();
-        zeckendorfs = new ArrayList<>();
         bounds = new ArrayList<>();
         fibNumbs = new ArrayList<>();
         allZeckendorfs = new ArrayList<>();
