@@ -1,6 +1,5 @@
 package com.company;
 
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.*;
@@ -25,13 +24,15 @@ class ZeckendorfRepresentationTest {
     public static final List<Integer> ZECKENDORF_8 = Arrays.asList(1, 0, 0, 0, 0);
     public static final List<Integer> ZECKENDORF_9 = Arrays.asList(1, 0, 0, 0, 1);
     public static final List<Integer> ZECKENDORF_10 = Arrays.asList(1, 0, 0, 1, 0);
+    public static final int HIGH_UPPER_BOUND = 2147483647;
+    public static final int HIGH_LOWER_BOUND = 2147483347;
 
 
     @Test
     void testFibonacciSequenceTest() {
         zeckendorfTest = new ZeckendorfRepresentation();
         zeckendorfTest.setLowerbound(1);
-        zeckendorfTest.setUpperBount(10);
+        zeckendorfTest.setUpperBound(10);
         zeckendorfTest.setFibonacciSequence();
         assertEquals("The first number in Fibonnaci sequence is incorrect", new Integer(1), zeckendorfTest.getFibonacci().get(0));
         assertEquals("The second number in Fibonnaci sequence is incorrect", new Integer(2), zeckendorfTest.getFibonacci().get(1));
@@ -44,7 +45,7 @@ class ZeckendorfRepresentationTest {
     void testZeckendorfSequenceBound1to1() {
         zeckendorfTest = new ZeckendorfRepresentation();
         zeckendorfTest.setLowerbound(1);
-        zeckendorfTest.setUpperBount(1);
+        zeckendorfTest.setUpperBound(1);
         zeckendorfTest.setFibonacciSequence();
         zeckendorfTest.getZeckendorfSequence();
         assertEquals("The first number in the Zeckendford sequence is incorret", new Integer(1), zeckendorfTest.getAllZeckendorfs().get(0).get(0));
@@ -55,7 +56,7 @@ class ZeckendorfRepresentationTest {
     void testBound1To10InZeckendorf() throws IOException {
         zeckendorfTest = new ZeckendorfRepresentation();
         zeckendorfTest.setLowerbound(1);
-        zeckendorfTest.setUpperBount(10);
+        zeckendorfTest.setUpperBound(10);
         zeckendorfTest.setFibonacciSequence();
         zeckendorfTest.getZeckendorfSequence();
         assertEquals("The Sequence should match 00001", ZECKENDORF_1, zeckendorfTest.getAllZeckendorfs().get(0));
@@ -71,4 +72,12 @@ class ZeckendorfRepresentationTest {
 
     }
 
+    @Test
+    void testHighUpperAndLowerBound(){
+        zeckendorfTest = new ZeckendorfRepresentation();
+        zeckendorfTest.setLowerbound(HIGH_LOWER_BOUND);
+        zeckendorfTest.setUpperBound(HIGH_UPPER_BOUND);
+        zeckendorfTest.setFibonacciSequence();
+        zeckendorfTest.getZeckendorfSequence();
+    }
 }

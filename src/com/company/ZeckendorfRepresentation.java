@@ -116,7 +116,7 @@ public class ZeckendorfRepresentation {
         int oldNumber = 1;
         int newNumber = 1;
         int tempNumber;
-        while (newNumber <= upperBound) {
+        while (newNumber <= upperBound && checkIntegerWrapAround(newNumber)) {
             tempNumber = newNumber;
             newNumber = oldNumber + newNumber;
             oldNumber = tempNumber;
@@ -134,8 +134,10 @@ public class ZeckendorfRepresentation {
      */
     public void getZeckendorfSequence() {
         List zeckendorfSequence = new ArrayList<>();
-        while (upperBound >= lowerBound) {
-            int lower = lowerBound;
+        int lowerBoundTemp = lowerBound;
+        int upperBoundTemp = upperBound;
+        while (upperBoundTemp >= lowerBoundTemp && checkIntegerWrapAround(lowerBoundTemp)) {
+            int lower = lowerBoundTemp;
             for (int i = fibonacci.size() - 1; i > -1; i--) {
                 if (fibonacci.get(i) <= lower) {
                     lower -= fibonacci.get(i);
@@ -144,11 +146,11 @@ public class ZeckendorfRepresentation {
                     zeckendorfSequence.add(0);
                 }
             }
-            System.out.print(lowerBound + ": ");
+            System.out.print(lowerBoundTemp + ": ");
             zeckendorfSequence.forEach(x -> System.out.print(x));
             allZeckendorfs.add(new ArrayList<>(zeckendorfSequence));
             System.out.println();
-            lowerBound++;
+            lowerBoundTemp++;
             zeckendorfSequence.clear();
         }
     }
@@ -157,7 +159,7 @@ public class ZeckendorfRepresentation {
         lowerBound = lower;
     }
 
-    public void setUpperBount(int upper) {
+    public void setUpperBound(int upper) {
         upperBound = upper;
     }
 
@@ -165,7 +167,9 @@ public class ZeckendorfRepresentation {
         return allZeckendorfs;
     }
 
-
+    public boolean checkIntegerWrapAround(int fibonnaciNumber){
+        return fibonnaciNumber > 0;
+    }
     /**
      * This method is not used, however it is used for building streams
      *
@@ -177,16 +181,16 @@ public class ZeckendorfRepresentation {
 
     public List AddBounds(int upperBound, int lowerBound) {
 
-        IntStream.range(lowerBound, upperBound + 1).forEach(i -> bounds.add(i));
+        //IntStream.range(lowerBound, upperBound + 1).forEach(i -> bounds.add(i));
         IntStream.range(0, bounds.size() - 1).forEach(index -> {
             int oldNumber = 1;
-            int newNumber = 1;
+            int  newNumber = 1;
             int tempNumber;
             while (newNumber < bounds.get(index)) {
                 tempNumber = newNumber;
                 newNumber = oldNumber + newNumber;
                 oldNumber = tempNumber;
-                fibNumbs.add(oldNumber);
+                //fibNumbs.add(oldNumber);
             }
         });
         return bounds;
